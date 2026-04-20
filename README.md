@@ -1,6 +1,6 @@
 # ten-9
 
-Push-to-talk voice morpher.
+Push-to-talk voice morpher.  
 **Mic → Whisper (speech-to-text) → Clipboard + Piper (robotic text-to-speech) → Virtual audio cable.**
 
 Hold your push-to-talk button, speak, release. The transcription lands in
