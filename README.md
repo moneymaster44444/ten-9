@@ -5,7 +5,7 @@ Push-to-talk voice morpher.
 
 Hold your push-to-talk button, speak, release. The transcription lands in
 your clipboard (paste with `Ctrl+V` anywhere), and in *robot mode* it is
-also spoken by Piper in a GLaDOS-style voice into a virtual audio cable —
+also spoken by Piper in a GLaDOS-style voice into a virtual audio cable,
 so friends on Discord hear the robot, not you.
 
 ## Features
@@ -14,12 +14,12 @@ so friends on Discord hear the robot, not you.
 - Robot-voice playback via Piper to any output device
 - Push-to-talk on a keyboard key **or** mouse4 / mouse5
 - Live hotkeys to swap language, translate-to-English, toggle mode
-- Single `config.toml` drives everything — no code edits needed
+- Single `config.toml` drives everything; no code edits needed
 
 ## Prerequisites
 
 - **Python 3.11 or newer** (uses the stdlib `tomllib`)
-- **Windows 10/11** recommended (Linux/macOS possible; audio routing differs)
+- **Windows 10/11**
 - A **virtual audio cable** so Discord/OBS can hear Piper:
   - [VB-Cable](https://vb-audio.com/Cable/) (simplest, free)
   - or [Voicemeeter](https://vb-audio.com/Voicemeeter/) (more flexible)
@@ -28,33 +28,28 @@ so friends on Discord hear the robot, not you.
 ## Quick start
 
 1. Clone this repo.
-2. Run the setup script:
-   - Windows: double-click `setup.bat` (or `.\setup.bat` in a terminal)
-   - Linux / macOS: `./setup.sh`
-
-   This creates `.venv/`, installs dependencies, downloads the Piper
-   binary and the default GLaDOS voice model, and copies
+2. Run the setup script: double-click `setup.bat` (or `.\setup.bat` in a
+   terminal). This creates `.venv/`, installs dependencies, downloads the
+   Piper binary and the default GLaDOS voice model, and copies
    `config.EXAMPLE.toml` → `config.toml`.
 3. Find your audio device names:
    ```
-   run.bat --list-devices      (Windows)
-   ./run.sh --list-devices     (Linux / macOS)
+   run.bat --list-devices
    ```
 4. Open `config.toml` and set:
-   - `audio.tts_output_name_contains` — the virtual cable input
+   - `audio.tts_output_name_contains`: the virtual cable input
      (e.g. `"CABLE Input"`).
-   - `audio.beep_output_name_contains` — your real speakers/headphones.
-   - `hotkeys.ptt` — push-to-talk button (`mouse4`, `mouse5`, or a key).
+   - `audio.beep_output_name_contains`: your real speakers/headphones.
+   - `hotkeys.ptt`: push-to-talk button (`mouse4`, `mouse5`, or a key).
 5. Run:
    ```
-   run.bat        (Windows)
-   ./run.sh       (Linux / macOS)
+   run.bat
    ```
 6. Hold PTT, speak, release. Text is on your clipboard. Toggle robot mode
    with the configured hotkey (default `Ctrl+Alt+Numpad 1`) to also speak
    it through the virtual cable.
 
-## Hotkeys (defaults — edit in `config.toml`)
+## Hotkeys (defaults, edit in `config.toml`)
 
 | Action                         | Default             |
 |--------------------------------|---------------------|
@@ -79,25 +74,22 @@ Any Piper `.onnx` + matching `.onnx.json` model works. Drop new voices into
 - **Whisper errors on CUDA**
   Try `device = "cpu"` and `compute_type = "int8"` in `config.toml`. CPU is
   fine for short phrases. If you *want* CUDA, make sure cuBLAS/cuDNN match
-  the `faster-whisper` version — see the
+  the `faster-whisper` version; see the
   [faster-whisper docs](https://github.com/SYSTRAN/faster-whisper#gpu).
 - **No beep sound**
   The beep device may not support 48 kHz. Set `beep.sample_rate = 44100`,
   or leave `beep_output_name_contains = ""` to use the system default.
-- **Mouse buttons don't trigger PTT**
-  `pynput` has no extra requirements on Windows/macOS. On Linux it reads
-  from `/dev/input/*` and usually needs the user to be in the `input` group.
 
 ## Project layout
 
 ```
 ten-9/
 ├── ten9.py                 # main script (one file, clearly sectioned)
-├── config.EXAMPLE.toml     # template — copied to config.toml on setup
+├── config.EXAMPLE.toml     # template, copied to config.toml on setup
 ├── config.toml             # your settings (gitignored)
 ├── requirements.txt
-├── setup.bat / setup.sh    # downloads Piper + GLaDOS model
-├── run.bat   / run.sh
+├── setup.bat               # creates venv, downloads Piper + GLaDOS model
+├── run.bat                 # activates venv and launches ten-9
 └── piper/                  # downloaded by setup (gitignored)
     ├── piper.exe
     └── models/
@@ -108,7 +100,7 @@ ten-9/
 
 ten-9 itself is MIT-licensed. It relies on several other projects, each
 with its own license. The setup script downloads these from their
-official sources — they are **not** bundled in this repository.
+official sources; they are **not** bundled in this repository.
 
 | Component | License | Source |
 |---|---|---|
