@@ -205,3 +205,18 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ten-9 — user's personal config (template is config.EXAMPLE.toml)
+config.toml
+
+# ten-9 — Piper binary + voice models, fetched by setup.bat/setup.sh.
+# Never commit these: Piper's license belongs to rhasspy/OHF-Voice and the
+# models belong to their authors. Keeping the repo binary-free also avoids
+# ballooning git history with 20MB+ blobs on every version bump.
+piper/
+
+# Visual Studio local state
+.vs/
+
+# Claude Code local state
+.claude/
