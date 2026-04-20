@@ -21,8 +21,7 @@ so friends on Discord hear the robot, not you.
 - **Python 3.11 or newer** (uses the stdlib `tomllib`)
 - **Windows 10/11**
 - A **virtual audio cable** so Discord/OBS can hear Piper:
-  - [VB-Cable](https://vb-audio.com/Cable/) (simplest, free)
-  - or [Voicemeeter](https://vb-audio.com/Voicemeeter/) (more flexible)
+  - [VB-Cable](https://vb-audio.com/Cable/)
 - *Optional* NVIDIA GPU + CUDA for fast Whisper. CPU works too (slower).
 
 ## Quick start
