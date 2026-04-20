@@ -22,6 +22,12 @@ so friends on Discord hear the robot, not you.
 - **Windows 10/11**
 - A **virtual audio cable** so Discord/OBS can hear Piper:
   - [VB-Cable](https://vb-audio.com/Cable/)
+    - The robot voice generated from this app will be sent to `CABLE Input` Playback device
+    - You will set your Discord input device to `CABLE Output`
+    - Doing this will pipe in the robot voice from this app to the Discord voice channel
+    - Your chosen Default Playback and Recording device from windows will remain the same  
+      (Pick the physical headphone/speaker and microphone as default devices as normal)
+    - You can monitor your robot voice by going into `CABLE Output` and clicking Listen to this device option
 - *Optional* NVIDIA GPU + CUDA for fast Whisper. CPU works too (slower).
 
 ## Quick start
@@ -38,7 +44,7 @@ so friends on Discord hear the robot, not you.
 4. Open `config.toml` and set:
    - `audio.tts_output_name_contains`: the virtual cable input
      (e.g. `"CABLE Input"`).
-   - `audio.beep_output_name_contains`: your real speakers/headphones.
+   - `audio.beep_output_name_contains`: your real physical speakers/headphones.
    - `hotkeys.ptt`: push-to-talk button (`mouse4`, `mouse5`, or a key).
 5. Run:
    ```
