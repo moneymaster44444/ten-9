@@ -1,0 +1,149 @@
+# ============================================================
+# ten-9 configuration
+# ============================================================
+# Copy this file to `config.toml` (setup.bat / setup.sh does this
+# automatically) and edit the values below. `config.toml` is
+# gitignored so your personal settings never get committed.
+#
+# To discover audio device names on your system, run:
+#     run.bat --list-devices        (Windows)
+#     ./run.sh --list-devices       (Linux / macOS)
+#
+# Device lookups are case-insensitive substring matches — you only
+# need enough of the name to be unambiguous (e.g. "CABLE Input" is
+# enough to match "CABLE Input (VB-Audio Virtual Cable)").
+
+
+# ------------------------------------------------------------
+# Hotkeys
+# ------------------------------------------------------------
+# - PTT (push-to-talk): hold this to record. Supported values:
+#     * any keyboard key name: "f13", "ctrl+alt+r", "space", ...
+#     * "mouse4" or "mouse5" for the side buttons on most mice
+# - All other hotkeys are keyboard-only, and use the `keyboard`
+#   library's syntax (e.g. "ctrl+alt+6", "ctrl+alt+num 1").
+[hotkeys]
+ptt              = "mouse4"
+toggle_mode      = "ctrl+alt+num 1"
+lang_en          = "ctrl+alt+6"
+lang_ko          = "ctrl+alt+7"
+task_transcribe  = "ctrl+alt+8"
+task_translate   = "ctrl+alt+9"
+
+
+# ------------------------------------------------------------
+# Whisper (speech-to-text)
+# ------------------------------------------------------------
+[whisper]
+# Model size: tiny / base / small / medium / large-v3.
+# Bigger = more accurate + slower + more VRAM.
+model_size    = "small"
+
+# Spoken language. Use "" to let Whisper auto-detect.
+# Common codes: "en" (English), "ko" (Korean), "ja", "es", ...
+language      = "en"
+
+# "transcribe" = output same language as spoken.
+# "translate"  = translate speech to English, regardless of input language.
+task          = "transcribe"
+
+# "cuda" for NVIDIA GPU, "cpu" for CPU-only.
+device        = "cuda"
+
+# On CUDA: "float16" is usually best. Try "int8_float16" for less VRAM.
+# On CPU: use "int8".
+compute_type  = "float16"
+
+
+# ------------------------------------------------------------
+# Output mode
+# ------------------------------------------------------------
+[output]
+# "clipboard" = copy text only (silent, no TTS).
+# "robot"     = speak with Piper AND copy text.
+# Toggle live with the `toggle_mode` hotkey.
+mode                         = "clipboard"
+
+# If true, every successful transcript is copied to the clipboard
+# even in robot mode (so you can paste it later if you want).
+always_copy_to_clipboard     = true
+
+# Play a short beep whenever text is copied.
+beep_on_copy                 = true
+
+# If true, only beep in clipboard mode (robot mode already makes
+# sound, so double audio gets annoying).
+beep_only_in_clipboard_mode  = true
+
+
+# ------------------------------------------------------------
+# Audio devices
+# ------------------------------------------------------------
+[audio]
+# Mic settings. 16 kHz mono is what Whisper expects.
+sample_rate = 16000
+channels    = 1
+
+# Where Piper's TTS audio goes. Usually your virtual audio cable
+# input (VB-Cable / Voicemeeter), so Discord/OBS picks it up as
+# your "mic". Leave "" to use system default output.
+#
+# Case-insensitive substring match — first match wins. If multiple
+# devices match (common when the same hardware is exposed through
+# several host APIs like MME / DirectSound / WASAPI / WDM-KS),
+# include more of the name to pin a specific one, e.g.:
+#     tts_output_name_contains  = "CABLE Input (VB-Audio Virtual Cable)"
+# Run `run.bat --list-devices` (or `./run.sh --list-devices`) to see
+# every device and its host API on your system.
+tts_output_name_contains  = "CABLE Input"
+
+# Where the success beep plays. Usually your real speakers or
+# headphones, NOT the virtual cable. Leave "" for system default.
+#
+# Same matching rules. Example to disambiguate the generic "Speakers":
+#     beep_output_name_contains = "Speakers (Sound BlasterX G6)"
+beep_output_name_contains = "Speakers"
+
+
+# ------------------------------------------------------------
+# Piper (text-to-speech)
+# ------------------------------------------------------------
+[piper]
+# Paths can be absolute, or relative to the project root.
+# A default GLaDOS model ships in piper/models/.
+exe   = "piper/piper.exe"
+model = "piper/models/glados_piper_medium.onnx"
+
+# Speech speed — higher = faster talking.
+# 1.0 is the voice's natural pace. Most Piper voices sound good
+# in the 1.1-1.4 range.
+speech_speed       = 1.3
+
+# Advanced: Piper's length_scale is computed as
+#     base_length_scale / speech_speed
+# and clamped to [length_scale_min, length_scale_max].
+# You usually only need to tune `speech_speed` above.
+base_length_scale  = 1.00
+length_scale_min   = 0.50
+length_scale_max   = 2.00
+
+# Volume after TTS generation. 1.0 = unchanged.
+gain               = 0.6
+
+# Normalize peak before applying gain. Must be <= 1.0.
+# Safety margin against digital clipping.
+target_peak        = 0.98
+
+# If true, starting a new line cuts off any currently-playing line.
+# If false, lines queue up.
+interrupt_current_tts = true
+
+
+# ------------------------------------------------------------
+# Beep sound
+# ------------------------------------------------------------
+[beep]
+sample_rate  = 48000
+duration_sec = 0.18
+freq_hz      = 880.0
+amplitude    = 0.25
